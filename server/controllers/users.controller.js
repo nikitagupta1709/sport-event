@@ -53,15 +53,14 @@ export const login = async (req, res) => {
             if(match){
                 let token = jwt.sign({
                     _id : userExists._id,
-                    email: userExists.email
+                    email: userExists.email,
+                    name: userExists.name
                 },JWT_SECRET)
 
                 // console.log(token,"token")
-
                 // Verifying...
                 let result = jwt.verify(token, JWT_SECRET);
                 // console.log(result,"result or payload");
-
                 // Decoding...
                 result = jwt.decode(token);
                 // console.log(result,"decrypted result");
