@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         minLength:8
+    },
+    events : {
+        type:Array,
+        default:[]
     }
 },{timestamp: true, versionKey: false})
 
