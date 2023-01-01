@@ -1,28 +1,28 @@
 import { NavLink } from "react-router-dom"
-import styles from "./Navbar.module.css";
-const links =[
-    {
-        path:"/",
-        title:"HOME"
-    },
-    {
-        path:"/login",
-        title:"LOGIN"
-    }
-]
+import {useSelector } from "react-redux"
+import jwt_decode from "jwt-decode";
+import "./Navbar.css"
+
 export const Navbar =()=>{
+    const {token} = useSelector((state)=>state)
+
+    if(token!=="null"){
+        var user = jwt_decode(token);
+        console.log(user);
+    }
     
+    const handleLogout = ()=>{
+        localStorage.setItem("token",null);
+        alert("User logged out succesfully!");
+        window.location.replace("/auth/login");
+    }
     return (
-        <div style={{display: "flex",  alignItems: "center", justifyContent: "space-around", width: "100%", margin: "auto", background: "#cecece", padding: "20px"}}>
-            {links.map( (link) => (
-                <NavLink key={link.path}  to={link.path}
-                    className={({isActive}) =>{
-                        return isActive ? styles.active : styles.default;
-                    }}
-                >
-                    {link.title}
-                </NavLink>
-            ))}
+        <div className='navbar'>
+            <NavLink to="/">Home</NavLink>
+            {
+                token==="null" ? <NavLink to="/auth/login">Login</NavLink> : <NavLink onClick={handleLogout} >Logout</NavLink>
+            }
+            
         </div>
     );
 }
